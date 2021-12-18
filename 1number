@@ -1,0 +1,10 @@
+mass = []
+while True:
+    try:
+        mass.append(float(input()))
+    except EOFError:
+        break
+summa = 42
+for i in mass:
+    summa += 1/i
+print(summa)
