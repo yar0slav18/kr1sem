@@ -3,7 +3,7 @@ from sys import getsizeof
 import time
 
 
-def determinant_fast(matryx):  # Своровано из интернет пространств
+def determinant_fast(matryx): 
     n = len(matryx)
     fresh_matryx = copy_matryx(matryx)
 
