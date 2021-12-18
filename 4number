@@ -1,0 +1,57 @@
+import random
+from datetime import datetime
+import kr_lib as kr
+
+
+def matrixmult(m1, m2):
+    n_m = float(datetime.strftime(datetime.now(), "%M "))
+    n_s = float(datetime.strftime(datetime.now(), "%S.%f"))
+    s = 0  # сумма
+    t = []  # временная матрица
+    m3 = []  # конечная матрица
+    if len(m2) != len(m1[0]):
+        print("Матрицы не могут быть перемножены")
+    else:
+        r1 = len(m1)  # количество строк в первой матрице
+        c1 = len(m1[0])  # Количество столбцов в 1
+        r2 = c1  # и строк во 2ой матрице
+        c2 = len(m2[0])  # количество столбцов во 2ой матрице
+        for z in range(0, r1):
+            for j in range(0, c2):
+                for i in range(0, c1):
+                    s = s + m1[z][i] * m2[i][j]
+                t.append(s)
+                s = 0
+            m3.append(t)
+            t = []
+
+    return kr.secundomer(n_m, n_s), m3
+
+
+c1 = 1
+r2 = 2
+while c1 != r2:
+    print("Кол-во столбцов в первой матрице должно быть = кол-ву строк 2 матрицы")
+    r1 = int(input('Введите кол-во строк для первой матрицы > '))
+    c1 = int(input('Введите кол-во столбцов для 1 матрицы > '))
+    r2 = int(input('Введите кол-во строк для второй матрицы > '))
+    c2 = int(input('Введите кол-во столбцов для 2 матрицы > '))
+
+
+def mass_printer(mass):
+    for element in mass:
+        print(element)
+    print()
+
+
+m1 = kr.create_int_matrix(r1, c1)
+print('Matrix №1')
+mass_printer(m1)
+
+m2 = kr.create_int_matrix(r2, c2)
+print('Matrix №2')
+mass_printer(m2)
+
+_, m3 = matrixmult(m1, m2)
+print('Matrix multiplication result')
+mass_printer(m3)
