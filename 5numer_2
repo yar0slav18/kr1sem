@@ -1,0 +1,77 @@
+import time
+import random
+from kr_lib import gauss, cramer
+import matplotlib.pyplot as plt
+from numpy import poly1d as np_poly1d, polyfit as np_polyfit
+from sys import getsizeof
+
+time_lst_1 = []
+time_lst_2 = []
+n_lst = []
+matrix_size_list = []
+
+for rows_count in range(10, 100, 10):
+    matrix = []
+    for row in range(rows_count):
+        time_temp = 0
+        matrix_row = []
+        for col in range(rows_count + 1):
+            matrix_row.append(random.randint(1, 11))
+        matrix.append(matrix_row.copy())
+    matrix_size = getsizeof(matrix)
+    matrix_size_list.append(matrix_size)
+
+    for _ in range(3):
+        start = time.time()
+        result_vector = gauss(rows_count, matrix)
+        end = time.time()
+        time_temp += end - start
+
+    time_lst_1.append(time_temp / 3)
+    print(time_lst_1[-1])
+    n_lst.append(row)
+
+    time_temp = 0
+    for _ in range(3):
+        start = time.time()
+        r, m = rows_count, matrix.copy()
+        result_vector = cramer(rows_count, matrix)
+        end = time.time()
+        time_temp += end - start
+
+    time_lst_2.append(time_temp / 3)
+    print(time_lst_2[-1])
+
+
+plt.figure(figsize=(10,6))
+
+plt.subplot(211)
+plt.plot(n_lst, time_lst_1, "yo" , label=f"Вычисление времени  СЛАУ методом Гаусса")
+
+
+plt.legend()
+plt.grid()
+plt.xlabel("Количество элементов в списке")
+plt.ylabel("Время вычисления, с.")
+
+plt.subplot(212)
+plt.plot(n_lst, time_lst_2, "ro", label=f"Вычисление времени  СЛАУ  Крамером")
+
+
+plt.legend()
+plt.grid()
+plt.xlabel("Количество элементов в списке")
+plt.ylabel("Время вычисления, с.")
+
+plt.show()
+
+plt.plot(n_lst, matrix_size_list, "r")
+trend_size = np_poly1d(np_polyfit(n_lst, matrix_size_list, 1))
+plt.plot(n_lst,trend_size(n_lst), "green", label=f"График зависимости времени от размерности матрицы")
+
+plt.legend()
+plt.grid()
+plt.xlabel("Количество элементов в списке")
+plt.ylabel("Объем матрицы,")
+
+plt.show()
