@@ -1,0 +1,10 @@
+x = [int(i) for i in input('x » ').split()]
+y = [int(i) for i in input('y » ').split()]
+a = int(input('a » '))
+while len(x) > len(y):
+    y.append(0)
+while len(y) > len(x):
+    x.append(0)
+for i in range(len(x)):
+    y[i] = x[i]*a + y[i]
+print(f"Summary vector's coordinates are {y}")
