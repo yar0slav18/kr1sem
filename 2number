@@ -1,0 +1,43 @@
+import time
+import os
+
+
+def output_string(index, input_lst):
+    a = []
+    for i in range(index, index + 23):
+        a.append("\033[36m" + input_lst[i])
+    return "".join(a)
+
+
+os.system('')
+lines = []  # Открытие текстового файла с кадрами и инициализация основных переменных
+for line in __import__('sys').stdin:
+    lines.append(line)
+gif = []
+
+print("If you want to exit program press Ctrl-C")
+time.sleep(3)
+
+print("\033c", end="")  # Чистилка консоли
+
+try:
+    count = 0
+    # Парсим файл и закидываем кадры
+    while True:
+        if lines[count].count("```") == 1:
+            gif.append(output_string(count + 1, lines))
+            count += 25
+        elif lines[count].count("```") != 1:
+            count += 1
+except IndexError:
+    pass
+
+# Рисовалка анимации
+try:
+    while True:
+        for frame in gif:
+            time.sleep(0.5)
+            print(frame)
+            print("\033c", end="")
+except KeyboardInterrupt:
+    print("Stopped by user's command")
